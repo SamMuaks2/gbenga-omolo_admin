@@ -1,16 +1,16 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function BooksTab() {
   const emptyBook = { id: null, title: "", author: "", summary: "", coverFile: null, coverPreview: null };
-  const [books, setBooks] = useState([
-    { id: 1, title: "Morning Prayer", author: "Author A", views: 320 },
-    { id: 2, title: "Evening Devotion", author: "Author B", views: 210 },
-  ]);
+  const [books, setBooks] = useState<any[]>([]);
+
 
   const [editingBook, setEditingBook] = useState(emptyBook);
   const [showBookModal, setShowBookModal] = useState(false);
+  const API_BASE_URL = "http://localhost:4000/api/books";
+
 
   function openCreateBook() {
     setEditingBook(emptyBook);
@@ -29,20 +29,91 @@ export default function BooksTab() {
     setEditingBook((s) => ({ ...s, coverFile: file, coverPreview: preview }));
   }
 
-  function saveBook() {
-    if (editingBook.id) {
-      setBooks((prev) => prev.map((b) => (b.id === editingBook.id ? { ...b, ...editingBook } : b)));
-    } else {
-      const id = Math.max(0, ...books.map((b) => b.id)) + 1;
-      setBooks((prev) => [{ ...editingBook, id }, ...prev]);
-    }
-    setShowBookModal(false);
-  }
+  // function saveBook() {
+  //   if (editingBook.id) {
+  //     setBooks((prev) => prev.map((b) => (b.id === editingBook.id ? { ...b, ...editingBook } : b)));
+  //   } else {
+  //     const id = Math.max(0, ...books.map((b) => b.id)) + 1;
+  //     setBooks((prev) => [{ ...editingBook, id }, ...prev]);
+  //   }
+  //   setShowBookModal(false);
+  // }
 
-  function deleteBook(id) {
-    if (!confirm("Delete this book?")) return;
-    setBooks((prev) => prev.filter((b) => b.id !== id));
-  }
+  // async function saveBook() {
+  //     const formData = new FormData();
+  //     formData.append("title", editingBook.title);
+  //     formData.append("author", editingBook.author);
+  //     formData.append("summary", editingBook.summary);
+  //     if (editingBook.coverFile) {
+  //       formData.append("cover", editingBook.coverFile);
+  //     }
+
+  //     const url = editingBook.id
+  //       ? `${API_BASE_URL}/${editingBook.id}`
+  //       : `API_BASE_URL`;
+
+  //     const method = editingBook.id ? "PUT" : "POST";
+
+  //     await fetch(url, { method, body: formData });
+  //     fetchBooks();
+  //     setShowBookModal(false);
+  //   }
+
+  async function saveBook() {
+      const formData = new FormData();
+      formData.append("title", editingBook.title);
+      formData.append("author", editingBook.author);
+      formData.append("summary", editingBook.summary);
+
+      if (editingBook.coverFile) {
+        formData.append("cover", editingBook.coverFile);
+      }
+
+      const url = editingBook.id
+        ? `${API_BASE_URL}/${editingBook.id}`
+        : API_BASE_URL;
+
+      const method = editingBook.id ? "PUT" : "POST";
+
+      await fetch(url, {
+        method,
+        body: formData,
+      });
+
+      // ✅ ALWAYS refetch full list
+      await fetchBooks();
+
+      setShowBookModal(false);
+    }
+
+
+  async function fetchBooks() {
+      const res = await fetch(API_BASE_URL);
+      const data = await res.json();
+      // setBooks(data);
+      setBooks(Array.isArray(data) ? data : []);
+    }
+
+    useEffect(() => {
+      fetchBooks();
+    }, []);
+  
+
+  // function deleteBook(id) {
+  //   if (!confirm("Delete this book?")) return;
+  //   setBooks((prev) => prev.filter((b) => b.id !== id));
+  // }
+
+  async function deleteBook(id) {
+      if (!confirm("Delete this book?")) return;
+
+      await fetch(`${API_BASE_URL}/${id}`, {
+        method: "DELETE",
+      });
+
+      fetchBooks();
+    }
+
 
   return (
     <section className="space-y-6">
