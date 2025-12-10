@@ -194,6 +194,7 @@
 import React, { useEffect, useState } from "react";
 
 type Devotional = {
+  coverImage?: string;
   id: string;
   title: string;
   type: string;
@@ -206,9 +207,22 @@ export default function DevotionalsTab() {
   const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
   async function fetchDevotionals() {
-    const res = await fetch(`${API}/api/devotionals`);
-    setDevotionals(await res.json());
-  }
+  const res = await fetch(`${API}/api/devotionals`);
+  const data = await res.json();
+
+  setDevotionals(
+    data.map((item: any) => ({
+      id: item._id,
+      title: item.title,
+      type: item.type,
+      coverImage: item.coverImage
+        ? item.coverImage.startsWith("http")
+          ? item.coverImage
+          : `${API}/${item.coverImage}`
+        : null,
+    }))
+  );
+}
 
   async function createDevotional(formData: FormData) {
     await fetch(`${API}/api/devotionals`, {
@@ -243,24 +257,60 @@ export default function DevotionalsTab() {
       </div>
 
       {/* List */}
-      <div className="bg-[#6b7280] rounded-2xl p-4 shadow">
-        <ul className="divide-y">
-          {devotionals.map((d) => (
-            <li key={d.id} className="py-3 flex justify-between items-center">
-              <div>
-                <div className="font-medium">{d.title}</div>
-                <div className="text-xs text-[#111827]">{d.type}</div>
+      <div className="bg-[#6b7280] rounded-2xl p-4 shadow overflow-x-auto">
+  <table className="w-full border-collapse">
+    <thead>
+      <tr className="text-left text-sm text-white border-b border-white/20">
+        <th className="py-3 px-2">Cover</th>
+        <th className="py-3 px-2">Title</th>
+        <th className="py-3 px-2">Type</th>
+        <th className="py-3 px-2 text-right">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody className="divide-y divide-white/20">
+      {devotionals.map((d) => (
+        <tr key={d.id} className="text-white">
+          {/* Cover */}
+          <td className="py-3 px-2">
+            {d.coverImage ? (
+              <img
+                src={d.coverImage}
+                alt={d.title}
+                className="w-12 h-16 object-cover rounded"
+              />
+            ) : (
+              <div className="w-12 h-16 bg-gray-400 rounded flex items-center justify-center text-xs">
+                No cover
               </div>
-              <button
-                onClick={() => deleteDevotional(d.id)}
-                className="px-2 py-1 bg-[#ef4444] rounded"
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+            )}
+          </td>
+
+          {/* Title */}
+          <td className="py-3 px-2">
+            <div className="font-medium">{d.title}</div>
+          </td>
+
+          {/* Type */}
+          <td className="py-3 px-2 text-sm capitalize">
+            {d.type}
+          </td>
+
+          {/* Actions */}
+          <td className="py-3 px-2 text-right">
+            <button
+              onClick={() => deleteDevotional(d.id)}
+              className="px-3 py-1 bg-[#ef4444] rounded hover:bg-red-600 transition"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
 
       {/* Modal */}
       {open && (
