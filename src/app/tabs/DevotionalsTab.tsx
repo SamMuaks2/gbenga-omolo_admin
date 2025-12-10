@@ -348,7 +348,6 @@ function DevotionalForm({
       </select>
 
       <div className="flex">
-
         <div className="cover flex flex-col">
           <label htmlFor="">Cover image</label>
 
