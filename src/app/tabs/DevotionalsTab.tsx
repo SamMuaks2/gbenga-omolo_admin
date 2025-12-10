@@ -330,26 +330,36 @@ function DevotionalForm({
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Add New Devotional</h2>
 
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Devotional title"
-        className="w-full p-2 border rounded"
-      />
+      <div className="flex-row title">
+        <label className="text-black">Devotional Title</label>
 
-      <select
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-        className="w-full p-2 border rounded"
-      >
-        <option value="daily">Daily</option>
-        <option value="weekly">Weekly</option>
-        <option value="monthly">Monthly</option>
-      </select>
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Devotional title"
+          className="w-full p-2 border rounded"
+        />
+      </div>
+
+      <div className="duration">
+        <label className="text-black">Devotional duration</label>
+
+        <select
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+          className="w-full p-2 border rounded"
+        >
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+        </select>
+      </div>
+
+
 
       <div className="flex">
         <div className="cover flex flex-col">
-          <label htmlFor="">Cover image</label>
+          <label className="text-black">Cover image</label>
 
           <input
             type="file"
@@ -359,7 +369,7 @@ function DevotionalForm({
         </div>
 
         <div className="document flex flex-col">
-          <label htmlFor="">Add devotional document</label>
+          <label className="text-black">Add devotional document</label>
 
           <input
             type="file"
@@ -370,15 +380,14 @@ function DevotionalForm({
       </div>
 
 
-
-
       <div className="flex justify-end gap-2 pt-4">
         <button
           onClick={onCancel}
-          className="px-4 py-2 border rounded"
+          className="px-4 py-2 bg-red-600 text-white border rounded"
         >
           Cancel
         </button>
+
         <button
           onClick={submit}
           className="px-4 py-2 bg-blue-600 text-white rounded"
