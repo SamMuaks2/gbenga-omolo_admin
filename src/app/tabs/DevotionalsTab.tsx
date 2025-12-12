@@ -349,6 +349,223 @@ function Modal({
 
 /* ================= FORM ================= */
 
+// function DevotionalForm({
+//   onCreate,
+//   onCancel,
+// }: {
+//   onCreate: (data: FormData) => void;
+//   onCancel: () => void;
+// }) {
+//   const [title, setTitle] = useState("");
+//   const [type, setType] = useState("daily");
+//   const [cover, setCover] = useState<File | null>(null);
+//   const [file, setFile] = useState<File | null>(null);
+
+//   // NEW OPTIONAL FIELDS
+//   const [author, setAuthor] = useState("");
+//   const [date, setDate] = useState("");
+//   const [scripture, setScripture] = useState("");
+//   const [category, setCategory] = useState("");
+//   const [tags, setTags] = useState("");
+
+//   const [showAdvanced, setShowAdvanced] = useState(false);
+//   const [useTyped, setUseTyped] = useState(false);
+//   const [typedContent, setTypedContent] = useState("");
+
+//   function submit() {
+//     if (!title || !file) {
+//       alert("Title and devotional file are required");
+//       return;
+//     }
+
+//     const form = new FormData();
+//     form.append("title", title);
+//     form.append("type", type);
+//     if (cover) form.append("cover", cover);
+//     if (file) form.append("file", file);
+
+//     // 🔥 OPTIONAL FIELDS (backend will ignore empty ones)
+//     if (author.trim()) form.append("author", author);
+//     if (date.trim()) form.append("date", date);
+//     if (scripture.trim()) form.append("scripture", scripture);
+//     if (category.trim()) form.append("category", category);
+//     if (tags.trim()) form.append("tags", JSON.stringify(tags.split(",")));
+
+//     onCreate(form);
+//   }
+
+//   return (
+//     <div className="space-y-4">
+//       <h2 className="text-lg font-semibold">Add New Devotional</h2>
+
+//       {/* TITLE */}
+//       <div>
+//         <label className="text-black">Devotional Title</label>
+//         <input
+//           value={title}
+//           onChange={(e) => setTitle(e.target.value)}
+//           placeholder="Devotional title"
+//           className="w-full p-2 border rounded"
+//         />
+//       </div>
+
+//       {/* TYPE */}
+//       <div>
+//         <label className="text-black">Devotional duration</label>
+//         <select
+//           value={type}
+//           onChange={(e) => setType(e.target.value)}
+//           className="w-full p-2 border rounded"
+//         >
+//           <option value="daily">Daily</option>
+//           <option value="weekly">Weekly</option>
+//           <option value="monthly">Monthly</option>
+//         </select>
+//       </div>
+
+//       {/* COVER */}
+//       <div>
+//         <label className="text-black">Cover Image</label>
+//         <input
+//           type="file"
+//           accept="image/*"
+//           onChange={(e) => setCover(e.target.files?.[0] || null)}
+//         />
+//       </div>
+
+//       {/* DEVOTIONAL DOCUMENT */}
+//       {/* <div>
+//         <label className="text-black">Devotional Document</label>
+//         <input
+//           type="file"
+//           accept=".pdf,.txt,.docx"
+//           onChange={(e) => setFile(e.target.files?.[0] || null)}
+//         />
+//       </div> */}
+
+
+// {/* DEVOTIONAL INPUT FORMAT SWITCH */}
+// <div className="flex items-center gap-2">
+//       <input
+//         type="checkbox"
+//         checked={useTyped}
+//         onChange={() => setUseTyped(!useTyped)}
+//       />
+//       <label className="text-black">Type devotional instead of uploading file</label>
+//     </div>
+
+//     {/* FILE OR TYPED DEVOTIONAL */}
+//     {useTyped ? (
+//       <div>
+//         <label className="text-black">Typed Devotional Content</label>
+//         <textarea
+//           value={typedContent}
+//           onChange={(e) => setTypedContent(e.target.value)}
+//           className="w-full p-2 border rounded h-40"
+//           placeholder="Write devotional content here..."
+//         ></textarea>
+//       </div>
+//     ) : (
+//       <div>
+//         <label className="text-black">Devotional Document</label>
+//         <input
+//           type="file"
+//           accept=".pdf,.txt,.docx"
+//           onChange={(e) => setFile(e.target.files?.[0] || null)}
+//         />
+//       </div>
+//     )}
+
+
+    
+
+
+
+
+//       {/* ▼ OPTIONAL SECTION */}
+//       <button
+//         type="button"
+//         className="text-blue-600 underline"
+//         onClick={() => setShowAdvanced(!showAdvanced)}
+//       >
+//         {showAdvanced ? "Hide advanced fields" : "Add advanced details (optional)"}
+//       </button>
+
+//       {showAdvanced && (
+//         <div className="space-y-4 border p-4 rounded">
+//           <div>
+//             <label>Author</label>
+//             <input
+//               value={author}
+//               onChange={(e) => setAuthor(e.target.value)}
+//               className="w-full p-2 border rounded"
+//               placeholder="e.g. Pastor Gbenga"
+//             />
+//           </div>
+
+//           <div>
+//             <label>Date</label>
+//             <input
+//               type="date"
+//               value={date}
+//               onChange={(e) => setDate(e.target.value)}
+//               className="w-full p-2 border rounded"
+//             />
+//           </div>
+
+//           <div>
+//             <label>Scripture Reference</label>
+//             <input
+//               value={scripture}
+//               onChange={(e) => setScripture(e.target.value)}
+//               className="w-full p-2 border rounded"
+//               placeholder="e.g. John 3:16"
+//             />
+//           </div>
+
+//           <div>
+//             <label>Category</label>
+//             <input
+//               value={category}
+//               onChange={(e) => setCategory(e.target.value)}
+//               className="w-full p-2 border rounded"
+//               placeholder="e.g. Faith, Healing, Grace"
+//             />
+//           </div>
+
+//           <div>
+//             <label>Tags (comma separated)</label>
+//             <input
+//               value={tags}
+//               onChange={(e) => setTags(e.target.value)}
+//               className="w-full p-2 border rounded"
+//               placeholder="love, hope, mercy"
+//             />
+//           </div>
+//         </div>
+//       )}
+
+//       {/* BUTTONS */}
+//       <div className="flex justify-end gap-3 mt-4">
+//         <button
+//           onClick={onCancel}
+//           className="px-4 py-2 bg-gray-300 rounded"
+//         >
+//           Cancel
+//         </button>
+
+//         <button
+//           onClick={submit}
+//           className="px-4 py-2 bg-blue-600 text-white rounded"
+//         >
+//           Upload Devotional
+//         </button>
+//       </div>
+//     </div>
+//   );
+// }
+
+
 function DevotionalForm({
   onCreate,
   onCancel,
@@ -361,9 +578,25 @@ function DevotionalForm({
   const [cover, setCover] = useState<File | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
+  // OPTIONAL FIELDS
+  const [author, setAuthor] = useState("");
+  const [date, setDate] = useState("");
+  const [scripture, setScripture] = useState("");
+  const [category, setCategory] = useState("");
+  const [tags, setTags] = useState("");
+
+  // SWITCH BETWEEN FILE / TYPED CONTENT
+  const [useTyped, setUseTyped] = useState(false);
+  const [typedContent, setTypedContent] = useState("");
+
   function submit() {
-    if (!title || !file) {
-      alert("Title and devotional file are required");
+    if (!title) {
+      alert("Title is required");
+      return;
+    }
+
+    if (!useTyped && !file) {
+      alert("Upload a devotional file OR type the devotional content");
       return;
     }
 
@@ -371,7 +604,23 @@ function DevotionalForm({
     form.append("title", title);
     form.append("type", type);
     if (cover) form.append("cover", cover);
-    if (file) form.append("file", file);
+
+    // typed devotional
+    if (useTyped && typedContent.trim()) {
+      form.append("content", typedContent);
+    }
+
+    // uploaded file
+    if (!useTyped && file) {
+      form.append("file", file);
+    }
+
+    // optional fields
+    if (author.trim()) form.append("author", author);
+    if (date.trim()) form.append("date", date);
+    if (scripture.trim()) form.append("scripture", scripture);
+    if (category.trim()) form.append("category", category);
+    if (tags.trim()) form.append("tags", JSON.stringify(tags.split(",")));
 
     onCreate(form);
   }
@@ -380,20 +629,19 @@ function DevotionalForm({
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Add New Devotional</h2>
 
-      <div className="flex-row title">
+      {/* TITLE */}
+      <div>
         <label className="text-black">Devotional Title</label>
-
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Devotional title"
           className="w-full p-2 border rounded"
         />
       </div>
 
-      <div className="duration">
+      {/* TYPE */}
+      <div>
         <label className="text-black">Devotional duration</label>
-
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
@@ -405,43 +653,89 @@ function DevotionalForm({
         </select>
       </div>
 
+      {/* COVER */}
+      <div>
+        <label className="text-black">Cover Image</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setCover(e.target.files?.[0] || null)}
+        />
+      </div>
 
+      {/* SWITCH BETWEEN FILE AND TYPED DEVOTIONAL */}
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={useTyped}
+          onChange={() => setUseTyped(!useTyped)}
+        />
+        <label className="text-black">Type devotional instead of uploading file</label>
+      </div>
 
-      <div className="flex">
-        <div className="cover flex flex-col">
-          <label className="text-black">Cover image</label>
-
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setCover(e.target.files?.[0] || null)}
-          />
+      {/* TYPED OR FILE */}
+      {useTyped ? (
+        <div>
+          <label className="text-black">Typed Devotional</label>
+          <textarea
+            value={typedContent}
+            onChange={(e) => setTypedContent(e.target.value)}
+            className="w-full h-40 p-2 border rounded"
+            placeholder="Enter devotional text here..."
+          ></textarea>
         </div>
-
-        <div className="document flex flex-col">
-          <label className="text-black">Add devotional document</label>
-
+      ) : (
+        <div>
+          <label className="text-black">Devotional document</label>
           <input
             type="file"
             accept=".pdf,.txt,.docx"
             onChange={(e) => setFile(e.target.files?.[0] || null)}
           />
         </div>
+      )}
+
+      {/* ADVANCED FIELDS */}
+      <div className="space-y-2 pt-4 border-t">
+        <h3 className="text-black font-semibold">Optional Fields</h3>
+        <input
+          className="w-full p-2 border rounded"
+          placeholder="Author"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+        />
+        <input
+          className="w-full p-2 border rounded"
+          placeholder="Date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+        <input
+          className="w-full p-2 border rounded"
+          placeholder="Scripture"
+          value={scripture}
+          onChange={(e) => setScripture(e.target.value)}
+        />
+        <input
+          className="w-full p-2 border rounded"
+          placeholder="Category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        />
+        <input
+          className="w-full p-2 border rounded"
+          placeholder="Tags (comma separated)"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+        />
       </div>
 
-
+      {/* ACTIONS */}
       <div className="flex justify-end gap-2 pt-4">
-        <button
-          onClick={onCancel}
-          className="px-4 py-2 bg-red-600 text-white border rounded"
-        >
+        <button onClick={onCancel} className="px-4 py-2 bg-red-600 text-white rounded">
           Cancel
         </button>
-
-        <button
-          onClick={submit}
-          className="px-4 py-2 bg-blue-600 text-white rounded"
-        >
+        <button onClick={submit} className="px-4 py-2 bg-blue-600 text-white rounded">
           Upload
         </button>
       </div>
